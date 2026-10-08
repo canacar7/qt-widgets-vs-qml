@@ -1,0 +1,8 @@
+# Derleme çıktıları
+build/
+build-*/
+
+# Qt Creator kullanıcıya özel ayarlar
+.qtcreator/
+*.user
+*.user.*
