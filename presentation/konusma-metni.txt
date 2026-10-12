@@ -1,0 +1,548 @@
+Qt Widgets vs Qt Quick - Konuşma Metni
+========================================
+
+[Slayt 1 - Kapak]
+Merhaba, ben Ahmet.
+Bugün Qt Widgets ve Qt Quick'i, yani QML'i,
+farklı kullanım senaryoları üzerinden karşılaştıracağız.
+Amacımız tek bir soruya net bir cevap vermek:
+hangi durumda hangisini seçmeliyiz?
+
+EN:
+Hello, I'm Ahmet.
+Today we will compare Qt Widgets and Qt Quick, in other words QML,
+using different use cases.
+Our goal is to answer one simple question:
+which one should we use, and when?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[Slayt 2 - Agenda]
+Bu karşılaştırmayı dört temel başlık altında ele alacağız.
+Önce özel şekilli bileşenlerle başlayacağız.
+Ardından büyük veri yüklenirken arayüzün tepkisine,
+sonra animasyon ve 3D yeteneklerine,
+son olarak da öğrenme eğrisi ve geliştirme hızına bakacağız.
+Her başlıkta aynı işi iki tarafta da yapıp sonucu yan yana göstereceğim.
+Sonuç bölümünde de hangi senaryoda hangisinin öne çıktığını özetleyeceğiz.
+
+EN:
+We will look at this comparison under four main topics.
+First, we will start with custom-shaped components.
+Then we will look at how the UI responds while loading large data,
+then at animation and 3D features,
+and finally at the learning curve and development speed.
+For each topic, I will build the same thing in both and show the results side by side.
+In the conclusion, we will sum up which one is better for which use case.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[Slayt 3 - The Button Example]
+Analizimize butonla başlayalım.
+Buton, hem Widgets'ta hem QML'de en çok kullanılan bileşen,
+ve iki tarafta da kullanımı çok basit.
+Peki butonun şeklini değiştirmek istediğimizde ne olacak?
+[TIKLA]
+Ekranda gördüğünüz gibi bu buton dikdörtgen değil, bir tarafı eğri.
+Hem Widgets hem de QML, bu tür standart olmayan şekiller üretmemize olanak sağlıyor.
+İlk olarak Widgets tarafına bakalım.
+
+EN:
+Let's start our analysis with the button.
+The button is the most used component in both Widgets and QML,
+and it is very easy to use in both.
+But what happens when we want to change its shape?
+[CLICK]
+As you can see, this button is not a rectangle. One side is curved.
+Both Widgets and QML let us create non-standard shapes like this.
+Let's look at the Widgets side first.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[Slayt 4 - Custom Component (Widgets): Promote]
+[TIKLA]
+Widgets tarafında ilk karşımıza çıkan yöntem Promote.
+Bu yöntem için önce QPushButton'dan türeyen bir sınıf oluşturuyoruz.
+[TIKLA]
+Bu sınıfın paintEvent metodunda, özel bileşenimizin path'ini adım adım çiziyoruz.
+[TIKLA]
+Ardından Designer ekranına geçiyoruz ve forma normal bir QPushButton ekliyoruz.
+[TIKLA]
+Butona sağ tıklayıp Promote ile sınıfımıza bağlıyoruz.
+Artık bu buton bir MyButton.
+[TIKLA]
+Fakat Designer ekranında şekli göremiyoruz.
+Şekil ancak uygulamayı çalıştırdığımızda ortaya çıkıyor.
+[TIKLA]
+Peki bu sorunu nasıl çözeriz?
+
+EN:
+[CLICK]
+On the Widgets side, the first method we meet is Promote.
+For this, we first create a class that inherits from QPushButton.
+[CLICK]
+In its paintEvent method, we draw the path of our custom component step by step.
+[CLICK]
+Then we go to Designer and add a normal QPushButton to the form.
+[CLICK]
+We right-click the button and link it to our class with Promote.
+Now this button is a MyButton.
+[CLICK]
+But we cannot see the shape in Designer.
+The shape only appears when we run the application.
+[CLICK]
+So how do we solve this problem?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[Slayt 5 - Designer Plugin (Widgets)]
+[TIKLA]
+Bu sorunu Designer plugin yöntemiyle çözüyoruz.
+Önce plugin için ayrı bir alt proje oluşturuyoruz.
+[TIKLA]
+Bu projede hem QObject'ten hem de QDesignerCustomWidgetInterface'ten türeyen bir sınıf yazıyoruz
+ve arayüzün sanal metotlarını dolduruyoruz.
+[TIKLA]
+Projeyi derlediğimizde bir .so dosyası, yani plugin oluşuyor.
+Bu dosyayı Qt Creator'ın Designer plugin klasörüne kopyalayıp Creator'ı yeniden başlatıyoruz.
+[TIKLA]
+Artık Widget Box'ta MyButton görünüyor.
+Forma bıraktığımızda, şekli Designer'da da net bir şekilde görebiliyoruz.
+[TIKLA]
+Uygulamayı çalıştırıyoruz, buton yerinde. Peki butona tıklarsak ne olur?
+Şeklin dışında kalan boş köşe de dahil, dikdörtgen alanın tamamı tıklanabilir.
+Bu da ayrı bir sorun.
+[TIKLA]
+Yani Widgets tarafında standart olmayan şekiller üretmek mümkün, ama oldukça zahmetli.
+Şimdi QML tarafına bakalım.
+
+EN:
+[CLICK]
+We solve this problem with a Designer plugin.
+First, we create a separate sub-project for the plugin.
+[CLICK]
+In it, we write a class that inherits from both QObject and QDesignerCustomWidgetInterface,
+and we implement the virtual methods of the interface.
+[CLICK]
+When we build the project, it produces a .so file, which is the plugin.
+We copy this file into Qt Creator's Designer plugin folder and restart Creator.
+[CLICK]
+Now MyButton appears in the Widget Box.
+When we drop it on the form, we can clearly see the shape in Designer as well.
+[CLICK]
+We run the application, and the button is there. But what happens when I click it?
+The whole rectangle is clickable, including the empty corner outside the shape.
+This is another issue.
+[CLICK]
+So on the Widgets side, creating non-standard shapes is possible, but it takes a lot of effort.
+Now let's look at the QML side.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[Slayt 6 - Custom Component (QML)]
+[TIKLA]
+Şimdi QML tarafına bakalım.
+QML bize Shape bileşenini veriyor. İçindeki ShapePath ve PathSvg şekli tanımlıyor.
+[TIKLA]
+PathSvg'nin path özelliği var ve SVG dosyasındaki path verisini buraya olduğu gibi yapıştırıyoruz.
+Merkez ya da açı hesabı yok.
+[TIKLA]
+Kodu çalıştırdığımızda bileşenimizi net bir şekilde görebiliyoruz.
+[TIKLA]
+Tıklama alanı da sorun değil: MouseArea'ya containmentMask verince sadece şeklin içi tıklanıyor.
+[TIKLA]
+Yani özel bir bileşen oluşturmak QML tarafında çok daha kolay.
+Özetle: basit dikdörtgen bir buton iki tarafta da kolay.
+Ama şekil değiştiğinde Widgets yaklaşık 160 satır C++ ve ayrı bir plugin projesi istiyor.
+QML'de ise tek dosyada yaklaşık 50 satır yetiyor.
+
+EN:
+[CLICK]
+Now let's look at the QML side.
+QML gives us the Shape component. Inside it, ShapePath and PathSvg describe the shape.
+[CLICK]
+PathSvg has a path property, and we paste the path data from the SVG file into it as is.
+No center, no angle calculation.
+[CLICK]
+When we run the code, you can clearly see our component.
+[CLICK]
+The click area is not a problem either: with containmentMask on the MouseArea, only the shape is clickable.
+[CLICK]
+So creating a custom component is much easier on the QML side.
+To sum up: a basic rectangular button is easy in both.
+But when the shape changes, Widgets needs about 160 lines of C++ and a separate plugin project.
+QML needs about 50 lines in a single file.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[Slayt 7 - Rendering: CPU vs GPU]
+Qt'nin kendi dokümanında Widgets ve Qt Quick için bir karşılaştırma tablosu var.
+Bu tablodaki bir satır doğrudan bizim konumuz: donanım hızlandırmalı grafik.
+Qt Quick, çizimi Scene Graph üzerinden GPU'da yapıyor.
+Widgets ise yazılımla, yani CPU'da çiziyor.
+Dokümana göre tam sahne GPU hızlandırması sadece Qt Quick'te var.
+Bunu bir testle görelim.
+
+EN:
+Qt's own documentation has a comparison table for Widgets and Qt Quick.
+One row in this table is exactly our topic: hardware-accelerated graphics.
+Qt Quick draws on the GPU through the Scene Graph.
+Widgets draw in software, which means on the CPU.
+According to the docs, only Qt Quick has built-in full-scene GPU acceleration.
+Let's see this with a test.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[Slayt 8 - Under Load: soldaki video (Widgets)]
+Önce Widgets.
+Birinci konudaki MyButton'ı hiç değiştirmeden kullandık.
+Butonlar sürekli ekleniyor ve hareket ediyor.
+Her karede QPainter hepsini CPU'da yeniden çiziyor.
+2000 butonda FPS 28'e düşüyor, CPU yüzde 100.
+Yani sınırı CPU belirliyor.
+
+EN:
+First, Widgets.
+We used the MyButton class from the first topic without any changes.
+Buttons keep being added and keep moving.
+In every frame, QPainter redraws all of them on the CPU.
+With 2000 buttons, FPS drops to 28 and CPU is at 100%.
+So the CPU is the limit.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[Slayt 8 - Under Load: sağdaki video (QML)]
+Aynı test QML tarafında.
+Burada çizimi Scene Graph yapıyor ve GPU'ya gönderiyor.
+3000 butonda bile FPS 60'ta sabit, CPU yüzde 26.
+Yani QML'de çizimi GPU yapıyor, CPU boşta kalıyor.
+
+EN:
+The same test on the QML side.
+Here, the Scene Graph does the drawing and sends it to the GPU.
+Even with 3000 buttons, FPS stays at 60 and CPU is at 26%.
+So in QML, the GPU does the drawing and the CPU stays free.
+
+[Slayt 9 - Blur on Android (Phone)]
+Son olarak aynı farkı telefonda görelim.
+Qt'nin dokümanı açıkça söylüyor: Qt Quick animasyonlu, modern arayüzler için tasarlanmış, Widgets değil.
+İki uygulama da aynı resmi sürekli bulanıklaştırıyor.
+Widgets bunu CPU'da yapıyor ve 30 FPS civarında kalıyor.
+QML GPU'da yapıyor ve 60 FPS'te.
+Not: kayıt için ekranı 60 Hz'e aldık, çünkü ekran kaydedici 120 Hz'i yakalayamıyor.
+120 Hz'de QML 120 FPS'te çalışıyor.
+
+EN:
+Finally, let's see the same difference on a phone.
+Qt's documentation says it clearly: Qt Quick is designed for animated, modern UIs; Qt Widgets are not.
+Both apps keep blurring the same image.
+Widgets does it on the CPU and stays at around 30 FPS.
+QML does it on the GPU and runs at 60 FPS.
+Note: we set the screen to 60 Hz for the recording, because the screen recorder can't capture 120 Hz.
+At 120 Hz, QML runs at 120 FPS.
+
+[Slayt 10 - Learning Curve]
+Şimdi şöyle bir senaryo düşünelim: Ne Widgets'ı ne de QML'i bilen bir geliştirici var.
+Kısa sürede basit bir araç yapması gerekiyor; örneğin bir USART simülatörü.
+Bir giriş alanı, bir çıkış alanı, gelen veriyi ayrıştırıp bir tabloya kaydetmek…
+Widgets'ta bileşenleri Designer'da sürükleyip bırakıyorsunuz, tablo ve metin alanları hazır geliyor.
+Her şey tek bir dilde, C++'ta yazılıyor; bir butonu bir fonksiyona bağlamak tek bir connect satırı.
+QML'de ise aynı iş için önce QML dilini öğrenmeniz gerekiyor.
+Sonra C++ tarafındaki veriyi arayüze açmak için Q_PROPERTY, Q_INVOKABLE, sinyaller ve QML_ELEMENT ile tip kaydı gibi kavramları bilmeniz gerekiyor.
+Yani iki dil ve aralarındaki köprü.
+Bu yüzden öğrenme eğrisi Widgets tarafında çok daha kısa.
+Zaman kısıtı varsa ve hedef görsel bir arayüz değil de çalışan bir araçsa, Widgets doğru tercih.
+
+EN:
+Now let's imagine a scenario: a developer who knows neither Widgets nor QML.
+They need to build a simple tool in a short time; for example, a USART simulator.
+An input field, an output field, parsing the incoming data and saving it into a table.
+In Widgets, you drag and drop the components in Designer, and tables and text fields are ready to use.
+Everything is written in one language, C++; connecting a button to a function is a single connect line.
+In QML, you first need to learn the QML language.
+Then, to expose your C++ data to the UI, you need concepts like Q_PROPERTY, Q_INVOKABLE, signals, and type registration with QML_ELEMENT.
+That means two languages and the bridge between them.
+That's why the learning curve is much shorter on the Widgets side.
+When time is tight and the goal is a working tool rather than a visual UI, Widgets is the right choice.

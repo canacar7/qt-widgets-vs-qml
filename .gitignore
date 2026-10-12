@@ -6,3 +6,7 @@ build-*/
 .qtcreator/
 *.user
 *.user.*
+
+# Ekran görüntüleri ve videolar
+screenshot/
+check.pptx

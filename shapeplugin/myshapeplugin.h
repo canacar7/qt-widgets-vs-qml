@@ -1,17 +1,21 @@
-#ifndef SHAPEBUTTONPLUGIN_H
-#define SHAPEBUTTONPLUGIN_H
+#ifndef MYSHAPEPLUGIN_H
+#define MYSHAPEPLUGIN_H
 
-#include <QtUiPlugin/QDesignerCustomWidgetInterface>
+#include <QtUiPlugin/QDesignerCustomWidgetCollectionInterface>
 
-class ShapeButtonPlugin : public QObject, public QDesignerCustomWidgetInterface
+//Designer a mybutton sınıfını tanıtacak sınıf.
+class MyShapePlugin : public QObject, public QDesignerCustomWidgetInterface
 {
     Q_OBJECT
+    //qt nin plugin sistemi bu sinifi bu kimlikte bulacak
     Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QDesignerCustomWidgetInterface")
+    //Bu sinifin hangi arayuzu uyguladigini Qt ye bildirir.
     Q_INTERFACES(QDesignerCustomWidgetInterface)
-
 public:
-    explicit ShapeButtonPlugin(QObject *parent = nullptr) : QObject(parent) {}
+    explicit  MyShapePlugin(QObject* parent = nullptr);
 
+    // QDesignerCustomWidgetInterface interface
+public:
     QString name() const override;
     QString group() const override;
     QString toolTip() const override;
@@ -20,12 +24,6 @@ public:
     QIcon icon() const override;
     bool isContainer() const override;
     QWidget *createWidget(QWidget *parent) override;
-    bool isInitialized() const override;
-    void initialize(QDesignerFormEditorInterface *core) override;
     QString domXml() const override;
-
-private:
-    bool m_initialized = false;
 };
-
-#endif // SHAPEBUTTONPLUGIN_H
+#endif // MYSHAPEPLUGIN_H
