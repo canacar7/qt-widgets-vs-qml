@@ -12,6 +12,17 @@ QWidget *MyShapePlugin::createWidget(QWidget *parent)
     return new MyButton(parent);
 }
 
+QString MyShapePlugin::includeFile() const
+{
+    /* Specifies the header file to be included for this button during compilation. */
+    return "topic1/mybutton.h";
+}
+
+QString MyShapePlugin::name() const
+{
+    return "MyButton";
+}
+
 //forma birakildiginda baslangic boyutu ve yazisi
 QString MyShapePlugin::domXml() const
 {
@@ -29,23 +40,12 @@ QString MyShapePlugin::domXml() const
 }
 
 
-//Widget sınıf adi ile birebir aynı olamlidir
-QString MyShapePlugin::name() const
-{
-    return "MyButton";
-}
 
-//widget box daki kategori basligi
 QString MyShapePlugin::group() const
 {
     return "Customn";
 }
 
-//uic ui_mainwindow.h icine bu #include yazacak
-QString MyShapePlugin::includeFile() const
-{
-    return "topic1/mybutton.h";
-}
 
 
 QIcon MyShapePlugin::icon() const
